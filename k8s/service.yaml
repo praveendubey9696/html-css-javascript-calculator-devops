@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculator-svc
+  namespace: calculator-prod
+spec:
+  selector:
+    app: calculator
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
