@@ -1,0 +1,10 @@
+loki:
+  persistence:
+    enabled: true
+    size: 5Gi
+promtail:
+  enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi

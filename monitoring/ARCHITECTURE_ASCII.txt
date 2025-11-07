@@ -1,0 +1,11 @@
+K3s (single-node)
+└── monitoring (namespace)
+    ├── Prometheus (kube-prometheus-stack)
+    │   ├── prometheus
+    │   ├── alertmanager
+    │   └── node-exporter
+    ├── Grafana
+    └── Loki + Promtail
+Logs ---> Promtail ---> Loki ---> Grafana
+Metrics ---> kube-state-metrics / node-exporter ---> Prometheus ---> Grafana
+Alerts ---> Prometheus Alertmanager ---> (Email/Slack) (optional)

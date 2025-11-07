@@ -1,0 +1,30 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: k3s-alerts
+  namespace: monitoring
+spec:
+  groups:
+  - name: k3s.rules
+    rules:
+    - alert: HighNodeCPU
+      expr: sum by (instance) (rate(node_cpu_seconds_total{mode!="idle"}[1m])) * 100 > 80
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High CPU on node {{ $labels.instance }}"
+    - alert: NodeDown
+      expr: up{job="kube-state-metrics"} == 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "kube-state-metrics is down on {{ $labels.instance }}"
+    - alert: PodCrashLooping
+      expr: increase(kube_pod_container_status_restarts_total[5m]) > 0
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Pod restarting frequently"
